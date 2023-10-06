@@ -1,0 +1,97 @@
+import unittest
+
+class LogicalFormulaTest(unittest.TestCase):
+    pass
+
+class LogicalAxiomTest(unittest.TestCase):
+    def test_is_satisfiable(self):
+        axiom = LogicalAxiom()
+
+        self.assertTrue(axiom.is_satisfiable())
+
+class LogicalContradictionTest(unittest.TestCase):
+    def test_is_satisfiable(self):
+        contradiction = LogicalContradiction()
+
+        self.assertFalse(contradiction.is_satisfiable())
+
+class LogicalImplicationTest(unittest.TestCase):
+    def test_is_satisfiable(self):
+        implication = LogicalImplication(LogicalAxiom(), LogicalAxiom())
+
+        self.assertTrue(implication.is_satisfiable())
+
+        implication = LogicalImplication(LogicalAxiom(), LogicalContradiction())
+
+        self.assertFalse(implication.is_satisfiable())
+
+class LogicalUniversalQuantifierTest(unittest.TestCase):
+    def test_is_satisfiable(self):
+        domain_of_discourse = {"a", "b", "c"}
+
+        quantifier = LogicalUniversalQuantifier("x", LogicalFormula("P(x)"), domain_of_discourse)
+
+        self.assertTrue(quantifier.is_satisfiable())
+
+        quantifier = LogicalUniversalQuantifier("x", LogicalContradiction(), domain_of_discourse)
+
+        self.assertFalse(quantifier.is_satisfiable())
+
+class LogicalExistentialQuantifierTest(unittest.TestCase):
+    def test_is_satisfiable(self):
+        domain_of_discourse = {"a", "b", "c"}
+
+        quantifier = LogicalExistentialQuantifier("x", LogicalFormula("P(x)"), domain_of_discourse)
+
+        self.assertTrue(quantifier.is_satisfiable())
+
+        quantifier = LogicalExistentialQuantifier("x", LogicalContradiction(), domain_of_discourse)
+
+        self.assertFalse(quantifier.is_satisfiable())
+
+class LogicalInferenceTest(unittest.TestCase):
+    def test_logical_inference_on_axiom(self):
+        logical_inference = LogicalInference({"a", "b", "c"})
+
+        self.assertTrue(logical_inference.logical_inference(LogicalAxiom()))
+
+    def test_logical_inference_on_contradiction(self):
+        logical_inference = LogicalInference({"a", "b", "c"})
+
+        self.assertFalse(logical_inference.logical_inference(LogicalContradiction()))
+
+    def test_logical_inference_on_implication(self):
+        logical_inference = LogicalInference({"a", "b", "c"})
+
+        implication = LogicalImplication(LogicalAxiom(), LogicalAxiom())
+
+        self.assertTrue(logical_inference.logical_inference(implication))
+
+        implication = LogicalImplication(LogicalAxiom(), LogicalContradiction())
+
+        self.assertFalse(logical_inference.logical_inference(implication))
+
+    def test_logical_inference_on_universal_quantifier(self):
+        logical_inference = LogicalInference({"a", "b", "c"})
+
+        quantifier = LogicalUniversalQuantifier("x", LogicalFormula("P(x)"), {"a", "b", "c"})
+
+        self.assertTrue(logical_inference.logical_inference(quantifier))
+
+        quantifier = LogicalUniversalQuantifier("x", LogicalContradiction(), {"a", "b", "c"})
+
+        self.assertFalse(logical_inference.logical_inference(quantifier))
+
+    def test_logical_inference_on_existential_quantifier(self):
+        logical_inference = LogicalInference({"a", "b", "c"})
+
+        quantifier = LogicalExistentialQuantifier("x", LogicalFormula("P(x)"), {"a", "b", "c"})
+
+        self.assertTrue(logical_inference.logical_inference(quantifier))
+
+        quantifier = LogicalExistentialQuantifier("x", LogicalContradiction(), {"a", "b", "c"})
+
+        self.assertFalse(logical_inference.logical_inference(quantifier))
+
+if __name__ == "__main__":
+    unittest.main()
