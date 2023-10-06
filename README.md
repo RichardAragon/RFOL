@@ -1,6 +1,7 @@
 # RFOL
 Recursive First-Order Logical Inference (R-FOL Inference) Algorithm
 README file
+Initial Code and Mathematical Formulas can also be found here: https://colab.research.google.com/drive/1-1pA88yVyU0U9WHHV8v09GUZDHQvHXm7?usp=sharing
 ## Python Logical Inference Library
 
 This library provides a Python implementation of a logical inference algorithm that can be used to infer whether a given first-order logical formula is satisfiable. The algorithm is based on the following recursive rules:
