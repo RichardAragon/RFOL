@@ -1,0 +1,23 @@
+I(P, Q) = {
+    if P is a logical axiom:
+        return True
+    elif P is a logical contradiction:
+        return False
+    elif P is of the form (A → B):
+        if I(P, B):
+            return True
+        else:
+            return False
+    elif P is of the form (∀x Q(x)):
+        for all x in the domain of discourse:
+            if not I(Q(x)):
+                return False
+        return True
+    elif P is of the form (∃x Q(x)):
+        for some x in the domain of discourse:
+            if I(Q(x)):
+                return True
+        return False
+    else:
+        raise Exception("Invalid logical formula")
+}
