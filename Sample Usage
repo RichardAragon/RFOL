@@ -1,0 +1,12 @@
+domain_of_discourse = {"a", "b", "c"}
+
+logical_inference = LogicalInference(domain_of_discourse)
+
+formula = LogicalImplication(
+    LogicalUniversalQuantifier("x", LogicalFormula("P(x)"), LogicalFormula("all")),
+    LogicalFormula("P(a)")
+)
+
+is_satisfiable = logical_inference.logical_inference(formula)
+
+print(is_satisfiable)
