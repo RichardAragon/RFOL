@@ -1,0 +1,52 @@
+class LogicalFormula:
+    pass
+
+class LogicalAxiom(LogicalFormula):
+    pass
+
+class LogicalContradiction(LogicalFormula):
+    pass
+
+class LogicalImplication(LogicalFormula):
+    def __init__(self, antecedent, consequent):
+        self.antecedent = antecedent
+        self.consequent = consequent
+
+class LogicalUniversalQuantifier(LogicalFormula):
+    def __init__(self, variable, quantifier_body, domain_of_discourse):
+        self.variable = variable
+        self.quantifier_body = quantifier_body
+        self.domain_of_discourse = domain_of_discourse
+
+class LogicalExistentialQuantifier(LogicalFormula):
+    def __init__(self, variable, quantifier_body, domain_of_discourse):
+        self.variable = variable
+        self.quantifier_body = quantifier_body
+        self.domain_of_discourse = domain_of_discourse
+
+class LogicalInference:
+    def __init__(self, domain_of_discourse):
+        self.domain_of_discourse = domain_of_discourse
+
+    def logical_inference(self, formula):
+        if isinstance(formula, LogicalAxiom):
+            return True
+        elif isinstance(formula, LogicalContradiction):
+            return False
+        elif isinstance(formula, LogicalImplication):
+            if self.logical_inference(formula.antecedent) and not self.logical_inference(formula.consequent):
+                return False
+            else:
+                return True
+        elif isinstance(formula, LogicalUniversalQuantifier):
+            for x in self.domain_of_discourse:
+                if not self.logical_inference(formula.quantifier_body.substitute(x)):
+                    return False
+            return True
+        elif isinstance(formula, LogicalExistentialQuantifier):
+            for x in self.domain_of_discourse:
+                if self.logical_inference(formula.quantifier_body.substitute(x)):
+                    return True
+            return False
+        else:
+            raise Exception("Invalid logical formula")
